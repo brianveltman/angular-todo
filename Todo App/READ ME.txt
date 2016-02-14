@@ -1,0 +1,5 @@
+READ ME
+
+De map 'app' bevat alle bron code
+
+De map 'dist' bevat alle 'web-optimised' code.
