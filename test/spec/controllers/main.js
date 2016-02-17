@@ -18,6 +18,6 @@ describe('Controller: MainCtrl', function () {
   }));
 
     it('should have no todos', function () {
-        expect(scope.todos.length).toBe(17);
+        expect(scope.todos.length).toBe(0);
     });
 });

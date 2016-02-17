@@ -19,11 +19,8 @@ angular
         'ui.sortable',
         'LocalStorageModule'
     ])
-    .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+    .config(['localStorageServiceProvider', '$routeProvider', function(localStorageServiceProvider, $routeProvider){
         localStorageServiceProvider.setPrefix('ycp');
-    }])
-
-    .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -38,4 +35,4 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
-    });
+    }]);
