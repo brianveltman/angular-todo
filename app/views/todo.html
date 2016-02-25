@@ -2,7 +2,7 @@
     <h2>To-do list</h2>
     <br>
     <!-- Todos form input -->
-    <div ng-controller="MainCtrl"></div>
+    <div ng-controller="todoController"></div>
     <form role="form" name="newInput">
         <div class="row">
             <div class="input-group">
@@ -22,7 +22,7 @@
                 <input type="checkbox" ng-model="todo.done" class="form-group">
             </span>
             <div ng-class="{'done':todo.done}" class="form-control">
-                <label ng-class="{'done':todo.done}" ng-dblclick="editTodo($index)">{{ todo.title }}</label>
+                <label ng-class="{'done':todo.done}">{{ todo.title }}</label>
             </div>
             <span class="input-group-btn">
                 <button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove">X</button>

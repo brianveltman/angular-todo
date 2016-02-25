@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: todoController', function () {
 
   // load the controller's module
   beforeEach(module('todoApp'));
 
-  var MainCtrl,
+  var todoController,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    todoController = $controller('todoController', {
       $scope: scope
       // place here mocked dependencies
     });

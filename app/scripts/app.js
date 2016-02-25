@@ -23,9 +23,9 @@ angular
         localStorageServiceProvider.setPrefix('ycp');
         $routeProvider
             .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
-                controllerAs: 'main'
+                templateUrl: 'views/todo.html',
+                controller: 'todoController',
+                controllerAs: 'todoController'
             })
             .when('/about', {
                 templateUrl: 'views/about.html',

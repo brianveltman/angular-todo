@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc function
- * @name todoApp.controller:MainCtrl
+ * @name todoApp.controller:todoController
  * @description
- * # MainCtrl
+ * # todoController
  * Controller of the todoApp
  */
 
 angular.module('todoApp')
-    .controller('MainCtrl', function($scope, localStorageService) {
+    .controller('todoController', function($scope, localStorageService) {
 
         var todosInStorage = localStorageService.get('todos');
 
