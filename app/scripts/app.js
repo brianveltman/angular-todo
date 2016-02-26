@@ -17,7 +17,9 @@ angular
         'ngSanitize',
         'ngTouch',
         'ui.sortable',
-        'LocalStorageModule'
+        'LocalStorageModule',
+        'todoController',
+        'todoService'
     ])
     .config(['localStorageServiceProvider', '$routeProvider', function(localStorageServiceProvider, $routeProvider){
         localStorageServiceProvider.setPrefix('ycp');

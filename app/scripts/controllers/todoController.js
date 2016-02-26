@@ -8,29 +8,61 @@
  * Controller of the todoApp
  */
 
-angular.module('todoApp')
-    .controller('todoController', function($scope, localStorageService) {
+angular.module('todoController', [])
+    .controller('todoController', ['$scope', 'Todos', 'localStorageService', function($scope, Todos, localStorageService) {
 
-        var todosInStorage = localStorageService.get('todos');
-
-        $scope.todos = todosInStorage || [];
-
+if (navigator.onLine == 0) {
+    var todosInStorage = localStorageService.get('todos');
+    $scope.todos = todosInStorage || [];
         $scope.$watch('todos', function() {
             localStorageService.set('todos', $scope.todos);
         }, true);
+    $scope.newToDo = '';
 
-        $scope.addToDo = function(){
-            $scope.todos.push({'title':$scope.newToDo,'done':false});
+    };
+
+        var load = function () {
+        Todos.get().success(function (data) {
+        $scope.todos = data;
+
+      });
+    };
+
+    load();
+
+    $scope.save = function () {
+        if (navigator.onLine == 1) {
+      Todos.create({'task':$scope.newToDo,'done':false})
+        .success(function () {
+          load();
+        $scope.newToDo = '';
+        $scope.$watch('todos', function() {
+            localStorageService.set('todos', $scope.todos);
+        }, true);
+        });
+    } else {
+            $scope.todos.push({'task':$scope.newToDo,'done':false});
             $scope.newToDo = '';
-        };
+    }
+    };
 
 
-        $scope.removeTodo = function (index) {
-            $scope.todos.splice(index, 1);
-        };
+    $scope.delete = function (id) {
+      Todos.delete(id)
+        .success(function () {
+          load();
+        });
+    };
+
+    $scope.update = function (id, done) {
+      Todos.update(id, done)
+        .success(function () {
+          load();
+        });
+    };
 
 
-        $scope.removeCompleted = function() {
+        /* $scope.removeCompleted = function() {
             $scope.todos = $scope.todos.filter(function(item){
                 return !item.done;
             });
@@ -61,6 +93,6 @@ angular.module('todoApp')
         if (localStorageService.get('todos') === null) {
             localStorageService.set('todos', $scope.todos);
         };
-        };
+        };*/
 
-    });
+    }]);

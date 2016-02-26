@@ -29,4 +29,15 @@ module.exports = function (app) {
     });
   });
 
+  app.put('/todos/:id', function (req, res) {
+    Todo.update({
+      _id: req.params.id,
+      done: true
+    }, function (err, todo) {
+      if (err)
+        res.send(err);
+      res.status(200).end();
+    });
+  });
+
 };

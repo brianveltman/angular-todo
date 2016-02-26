@@ -8,7 +8,7 @@
             <div class="input-group">
                 <input type="text" ng-model="newToDo" name="newToDo" placeholder="New todo" class="form-control" autofocus required>
                 <span class="input-group-btn">
-                    <button ng-disabled="newInput.$invalid" ng-click="addToDo()" class="btn btn-primary">Add item</button>
+                    <button ng-disabled="newInput.$invalid" ng-click="save()" class="btn btn-primary">Add item</button>
                 </span>
             </div>
         </div>
@@ -19,13 +19,13 @@
     <div ui-sortable ng-model="todos">
         <div class="input-group" ng-repeat="todo in todos track by $index" style="padding:5px 10px; cursor: move;">
             <span class="input-group-addon">
-                <input type="checkbox" ng-model="todo.done" class="form-group">
+                <input type="checkbox" ng-click="update(todo._id)" ng-model="todo.done" class="form-group">
             </span>
             <div ng-class="{'done':todo.done}" class="form-control">
-                <label ng-class="{'done':todo.done}">{{ todo.title }}</label>
+                <label ng-class="{'done':todo.done}">{{ todo.task }}</label>
             </div>
             <span class="input-group-btn">
-                <button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove">X</button>
+                <button class="btn btn-danger" ng-click="delete(todo._id)" aria-label="Remove">X</button>
             </span>
         </div>
         <br>

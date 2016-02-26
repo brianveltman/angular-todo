@@ -81,4 +81,20 @@ body {
 button:focus {
   outline: 0; }
 
+#connection {
+    width: 20px;
+    height: 20px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin: 15px;
+}
+.online {
+  background: green;
+}
+
+.offline {
+  background: red;
+}
+
 /*# sourceMappingURL=main.css.map */
