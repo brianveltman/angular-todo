@@ -10,7 +10,7 @@ angular.module('todoService', [])
       create: function (newTodo) {
         if (navigator.onLine) {
         return $http.post('/todo', newTodo);
-      };
+      }
       },
       update: function (id, done) {
         return $http.patch('/todo/' + id, done );

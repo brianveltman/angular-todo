@@ -11,7 +11,7 @@
 angular.module('todoController', [])
     .controller('todoController', ['$scope', 'Todos', 'localStorageService', function($scope, Todos, localStorageService) {
 
-if (navigator.onLine == 0) {
+if (navigator.onLine === true) {
     var todosInStorage = localStorageService.get('todos');
     $scope.todos = todosInStorage || [];
         $scope.$watch('todos', function() {
@@ -19,7 +19,7 @@ if (navigator.onLine == 0) {
         }, true);
     $scope.newToDo = '';
 
-    };
+    }
 
         var load = function () {
         Todos.get().success(function (data) {
@@ -32,17 +32,13 @@ if (navigator.onLine == 0) {
 
     $scope.save = function () {
         var dateNow = new Date().toISOString();
-        console.log('before connection check' + dateNow);
         if (navigator.onLine === true) {
-            console.log('before create method' + dateNow);
             Todos.create({'task':$scope.newToDo,'done':false, 'created_at':dateNow})
             .success(function () {
             load();
-                console.log('when create is success' + dateNow);
                 $scope.newToDo = '';
             $scope.$watch('todos', function() {
             localStorageService.set('todos', $scope.todos);
-                console.log('stored in local storage' + dateNow);
         }, true);
             });
     } else {
@@ -56,7 +52,7 @@ if (navigator.onLine == 0) {
 
 
     $scope.delete = function (id) {
-       // if (navigator.onLine == 1) {
+       // if (navigator.onLine == true) {
             Todos.delete(id)
                 .success(function () {
                     load();
