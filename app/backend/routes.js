@@ -10,7 +10,7 @@ module.exports = function (app) {
   });
 
   app.post('/todo', function (req, res) {
-    var newTodo = new Todo({task: req.body.task});
+    var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {
       if (err)res.send(err);

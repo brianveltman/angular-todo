@@ -31,27 +31,39 @@ if (navigator.onLine == 0) {
     load();
 
     $scope.save = function () {
-        if (navigator.onLine == 1) {
-      Todos.create({'task':$scope.newToDo,'done':false})
-        .success(function () {
-          load();
-        $scope.newToDo = '';
-        $scope.$watch('todos', function() {
+        var dateNow = new Date().toISOString();
+        console.log('before connection check' + dateNow);
+        if (navigator.onLine === true) {
+            console.log('before create method' + dateNow);
+            Todos.create({'task':$scope.newToDo,'done':false, 'created_at':dateNow})
+            .success(function () {
+            load();
+                console.log('when create is success' + dateNow);
+                $scope.newToDo = '';
+            $scope.$watch('todos', function() {
             localStorageService.set('todos', $scope.todos);
+                console.log('stored in local storage' + dateNow);
         }, true);
-        });
+            });
     } else {
-            $scope.todos.push({'task':$scope.newToDo,'done':false});
+            $scope.$watch('todos', function() {
+                localStorageService.set('todos', $scope.todos);
+            }, true);
+            $scope.todos.push({'task':$scope.newToDo,'done':false, 'created_at':dateNow});
             $scope.newToDo = '';
     }
     };
 
 
     $scope.delete = function (id) {
-      Todos.delete(id)
-        .success(function () {
-          load();
-        });
+       // if (navigator.onLine == 1) {
+            Todos.delete(id)
+                .success(function () {
+                    load();
+                });
+       /* } else {
+            $scope.todos.delete(id);
+        } */
     };
 
     $scope.update = function (id, done) {
