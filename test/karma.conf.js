@@ -34,6 +34,8 @@ module.exports = function(config) {
       'bower_components/jquery-ui/jquery-ui.js',
       'bower_components/angular-ui-sortable/sortable.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
+      'bower_components/pusher-angular/lib/pusher-angular.js',
+      'bower_components/pusher/dist/pusher.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

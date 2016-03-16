@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+var TodoApp = angular
     .module('todoApp', [
         'ngAnimate',
         'ngCookies',
@@ -19,7 +19,8 @@ angular
         'ui.sortable',
         'LocalStorageModule',
         'todoController',
-        'todoService'
+        'todoService',
+        'pusher-angular'
     ])
     .config(['localStorageServiceProvider', '$routeProvider', function(localStorageServiceProvider, $routeProvider){
         localStorageServiceProvider.setPrefix('ycp');

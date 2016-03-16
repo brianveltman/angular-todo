@@ -1,6 +1,6 @@
 var Todo = require('./model/todo');
 
-module.exports = function (app) {
+module.exports = function (app, pusher) {
 
   app.get('/todos', function (req, res) {
     Todo.find(function (err, todos) {

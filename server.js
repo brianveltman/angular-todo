@@ -5,6 +5,12 @@ var mongoose = require('mongoose');                 // mongoose for mongodb
 var morgan = require('morgan');             		// log requests to the console (express4)
 var bodyParser = require('body-parser');    		// pull information from HTML POST (express4)
 var methodOverride = require('method-override');	// simulate DELETE and PUT (express4)
+var Pusher = require('pusher');
+var pusher = new Pusher({
+	appId: '175457',
+	key: '6c58cef4eda9a130ba92',
+	secret: 'a64d8d14a6a999252100'
+});
 
 // configuration =================
 mongoose.connect('mongodb://localhost/todo');

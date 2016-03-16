@@ -9,9 +9,13 @@
  */
 
 angular.module('todoController', [])
-    .controller('todoController', ['$scope', 'Todos', 'localStorageService', function($scope, Todos, localStorageService) {
+    .controller('todoController', ['$scope', 'Todos', 'localStorageService', '$pusher', function($scope, Todos, localStorageService, $pusher) {
 
-if (navigator.onLine === true) {
+        var client = new Pusher('6c58cef4eda9a130ba92');
+        var pusher = $pusher(client);
+        var todoChannel = pusher.subscribe('todo-channel');
+
+        if (navigator.onLine === true) {
     var todosInStorage = localStorageService.get('todos');
     $scope.todos = todosInStorage || [];
         $scope.$watch('todos', function() {
@@ -24,7 +28,11 @@ if (navigator.onLine === true) {
         var load = function () {
         Todos.get().success(function (data) {
         $scope.todos = data;
-
+            todoChannel.bind('new-todo',
+                function(data) {
+                    console.log(data);
+                }
+            );
       });
     };
 
@@ -34,10 +42,11 @@ if (navigator.onLine === true) {
         var dateNow = new Date().toISOString();
         if (navigator.onLine === true) {
             Todos.create({'task':$scope.newToDo,'done':false, 'created_at':dateNow})
-            .success(function () {
-            load();
+            .success(function (pusher) {
+                load();
                 $scope.newToDo = '';
-            $scope.$watch('todos', function() {
+                pusher.trigger('todo-channel', 'new-todo', {"message": "hello world"});
+                $scope.$watch('todos', function() {
             localStorageService.set('todos', $scope.todos);
         }, true);
             });
