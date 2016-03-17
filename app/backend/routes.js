@@ -1,15 +1,19 @@
 var Todo = require('./model/todo');
 
+<<<<<<< 0480089f9e4aa30187ec6f29f3cfc0535b57b880
 module.exports = function (app, pusher) {
+=======
+module.exports = function (router) {
+>>>>>>> Prefix API route with /api
 
-  app.get('/todos', function (req, res) {
+  router.get('/todos', function (req, res) {
     Todo.find(function (err, todos) {
       if (err) res.send(err);
       else res.json(todos);
     });
   });
 
-  app.post('/todo', function (req, res) {
+  router.post('/todo', function (req, res) {
     var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {
@@ -23,7 +27,7 @@ module.exports = function (app, pusher) {
 
   });
 
-  app.delete('/todo/:id', function (req, res) {
+  router.delete('/todo/:id', function (req, res) {
     Todo.remove({
       _id: req.params.id
     }, function (err, todo) {
@@ -33,7 +37,7 @@ module.exports = function (app, pusher) {
     });
   });
 
-  app.put('/todos/:id', function (req, res) {
+  router.put('/todos/:id', function (req, res) {
     Todo.update({
       _id: req.params.id,
       done: true

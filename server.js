@@ -1,6 +1,7 @@
 // set up ========================
 var express  = require('express');
 var app      = express();                           // create our app w/ express
+var router	 = express.Router();
 var mongoose = require('mongoose');                 // mongoose for mongodb
 var morgan = require('morgan');             		// log requests to the console (express4)
 var bodyParser = require('body-parser');    		// pull information from HTML POST (express4)
@@ -14,6 +15,7 @@ var pusher = new Pusher({
 
 // configuration =================
 mongoose.connect('mongodb://localhost/todo');
+app.use('/api', router);										// Use /api prefix for API requests.
 app.use(express.static(__dirname + '/app'));					// set directory for static files
 app.use('/bower_components', 									// set prefix for bower components
 	express.static(__dirname + '/bower_components'));			// load statics files from bower directory
@@ -28,4 +30,8 @@ app.listen(3000, function() {
 	console.log("App listening on port 3000");
     });
 
+<<<<<<< 0480089f9e4aa30187ec6f29f3cfc0535b57b880
 require('./app/backend/routes')(app, pusher);
+=======
+require('./app/backend/routes')(router);
+>>>>>>> Prefix API route with /api

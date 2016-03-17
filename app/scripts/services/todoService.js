@@ -6,18 +6,18 @@
       .factory('Todos', ['$http', function ($http) {
         return {
           get: function () {
-            return $http.get('/todos');
+            return $http.get('/api/todos');
           },
           create: function (newTodo) {
             if (navigator.onLine) {
-              return $http.post('/todo', newTodo);
+              return $http.post('/api/todo', newTodo);
             }
           },
           update: function (id, done) {
-            return $http.patch('/todo/' + id, done);
+            return $http.patch('/api/todo/' + id, done);
           },
           delete: function (id) {
-            return $http.delete('/todo/' + id);
+            return $http.delete('/api/todo/' + id);
           }
         };
       }]);
