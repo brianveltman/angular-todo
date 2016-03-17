@@ -30,8 +30,4 @@ app.listen(3000, function() {
 	console.log("App listening on port 3000");
     });
 
-<<<<<<< 0480089f9e4aa30187ec6f29f3cfc0535b57b880
-require('./app/backend/routes')(app, pusher);
-=======
-require('./app/backend/routes')(router);
->>>>>>> Prefix API route with /api
+require('./app/backend/routes')(router, pusher);
