@@ -13,7 +13,7 @@ module.exports = function (router) {
     });
   });
 
-  router.post('/todo', function (req, res) {
+  router.post('/todos', function (req, res) {
     var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {

@@ -10,7 +10,7 @@
           },
           create: function (newTodo) {
             if (navigator.onLine) {
-              return $http.post('/api/todo', newTodo);
+              return $http.post('/api/todos', newTodo);
             }
           },
           update: function (id, done) {
