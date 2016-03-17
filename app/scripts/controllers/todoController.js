@@ -30,7 +30,7 @@ angular.module('todoController', [])
         $scope.todos = data;
             todoChannel.bind('new-todo',
                 function(data) {
-                    console.log(data);
+                    $scope.todos.push(data);
                 }
             );
       });
@@ -42,10 +42,9 @@ angular.module('todoController', [])
         var dateNow = new Date().toISOString();
         if (navigator.onLine === true) {
             Todos.create({'task':$scope.newToDo,'done':false, 'created_at':dateNow})
-            .success(function (pusher) {
+            .success(function () {
                 load();
                 $scope.newToDo = '';
-                pusher.trigger('todo-channel', 'new-todo', {"message": "hello world"});
                 $scope.$watch('todos', function() {
             localStorageService.set('todos', $scope.todos);
         }, true);

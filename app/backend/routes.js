@@ -13,8 +13,12 @@ module.exports = function (app, pusher) {
     var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {
-      if (err)res.send(err);
-      res.status(200).end();
+      if (err) {
+        res.send(err);
+      } else {
+        pusher.trigger('todo-channel', 'new-todo', {"task": req.body.task, });
+        res.status(200).end();
+      }
     });
 
   });

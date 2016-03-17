@@ -28,4 +28,4 @@ app.listen(3000, function() {
 	console.log("App listening on port 3000");
     });
 
-require('./app/backend/routes')(app);
+require('./app/backend/routes')(app, pusher);
