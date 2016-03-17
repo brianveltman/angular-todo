@@ -16,7 +16,7 @@ module.exports = function (app, pusher) {
       if (err) {
         res.send(err);
       } else {
-        pusher.trigger('todo-channel', 'new-todo', {"task": req.body.task, });
+        pusher.trigger('todo-channel', 'new-todo', {"task": req.body.task, "done": req.body.done, "created_at": req.body.created_at });
         res.status(200).end();
       }
     });
