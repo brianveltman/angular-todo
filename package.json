@@ -52,6 +52,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-  "install": "bower install"
+    "install": "bower install"
   }
 }
