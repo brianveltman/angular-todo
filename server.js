@@ -1,4 +1,5 @@
 // set up ========================
+require('dotenv').config();							// dotenv for environment variables
 var express  = require('express');
 var app      = express();                           // create our app w/ express
 var router	 = express.Router();
@@ -8,9 +9,9 @@ var bodyParser = require('body-parser');    		// pull information from HTML POST
 var methodOverride = require('method-override');	// simulate DELETE and PUT (express4)
 var Pusher = require('pusher');
 var pusher = new Pusher({
-	appId: '175457',
-	key: '6c58cef4eda9a130ba92',
-	secret: 'a64d8d14a6a999252100'
+	appId: process.env.PUSHER_APP_ID,
+	key: process.env.PUSHER_KEY,
+	secret: process.env.PUSHER_SECRET
 });
 
 // configuration =================
