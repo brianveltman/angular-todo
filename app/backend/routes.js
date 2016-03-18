@@ -8,7 +8,7 @@ module.exports = function (router, pusher) {
     });
   });
 
-  router.post('/todos', function (req, res) {
+  router.post('/todo', function (req, res) {
     var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {
@@ -22,7 +22,7 @@ module.exports = function (router, pusher) {
 
   });
 
-  router.delete('/todos/:id', function (req, res) {
+  router.delete('/todo/:id', function (req, res) {
     Todo.remove({
       _id: req.params.id
     }, function (err, todo) {
@@ -32,7 +32,7 @@ module.exports = function (router, pusher) {
     });
   });
 
-  router.put('/todos/:id', function (req, res) {
+  router.put('/todo/:id', function (req, res) {
     Todo.update({
       _id: req.params.id,
       done: true
