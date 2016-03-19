@@ -13,7 +13,7 @@
     "angular-ui-sortable": "^0.13.4",
     "jquery-ui": "^1.11.4",
     "angular-local-storage": "^0.2.3",
-    "pusher-angular": "~0.1.9",
+    "pusher-angular": "^0.1.9",
     "pusher": "^3.0.0"
   },
   "devDependencies": {
