@@ -3,7 +3,7 @@
   "description": "Simple todo app.",
   "author": "Brian Veltman",
   "main": "server.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "body-parser": "^1.15.0",
