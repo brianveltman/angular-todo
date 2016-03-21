@@ -18,7 +18,6 @@
                     'ngTouch',
                     'ui.sortable',
                     'LocalStorageModule',
-                    'todoController',
                     'todoService',
                     'pusher-angular'
             ]);
