@@ -11,7 +11,7 @@
     angular.module('todoController', [])
         .controller('todoController', ['$scope', 'Todos', 'localStorageService', '$pusher', function ($scope, Todos, localStorageService, $pusher) {
 
-            var client = new Pusher('6c58cef4eda9a130ba92');
+            var client = new Pusher('68ee1e650a5898375283');
             var pusher = $pusher(client);
             var todoChannel = pusher.subscribe('todo-channel');
             
