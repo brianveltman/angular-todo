@@ -26,6 +26,7 @@
             }
 
             var load = function () {
+              if (navigator.onLine === true ) {
                 Todos.get().success(function (data) {
                     $scope.todos = data;
                     todoChannel.bind('new-todo',
@@ -34,6 +35,10 @@
                         }
                     );
                 });
+              } else {
+                var todosInStorage = localStorageService.get('todos');
+                $scope.todos = todosInStorage || [];
+              }
             };
 
             load();
@@ -76,5 +81,52 @@
                         load();
                     });
             };
-        }]);
+
+            var pushLocalTodosToMongo = function() {
+              var localTodos = JSON.stringify(localStorageService.get('todos'));
+              //var todos = [localTodos];
+              console.log('push' + localTodos);
+              Todos.create(localTodos);
+              return;
+            }
+
+            function updateBrowserConnection(connected) {
+              var el = document.querySelector('#connection');
+              if (connected) {
+                if (el.classList) {
+                  el.classList.add('online');
+                  el.classList.remove('offline');
+                } else {
+                  el.addClass('online');
+                  el.removeClass('offline');
+                }
+              } else {
+                if (el.classList) {
+                  el.classList.remove('online');
+                  el.classList.add('offline');
+                } else {
+                  el.removeClass('online');
+                  el.addClass('offline');
+                }
+              }
+            }
+
+            window.addEventListener('load', function () {
+              if (connectionService.online) {
+                updateBrowserConnection(true);
+              } else {
+                updateBrowserConnection(false);
+              }
+            }, false);
+
+            window.addEventListener('online', function () {
+              updateBrowserConnection(true);
+              pushLocalTodosToMongo();
+            }, false);
+
+            window.addEventListener('offline', function () {
+              updateBrowserConnection(false);
+            }, false);
+
+        });
 })();

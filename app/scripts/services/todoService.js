@@ -10,7 +10,13 @@
           },
           create: function (newTodo) {
             if (navigator.onLine) {
+              console.log('create fc' + newTodo);
               return $http.post('/api/todo', newTodo);
+            }
+          },
+          push: function (newTodo) {
+            if (navigator.onLine) {
+              return $http.post('/api/todos', newTodo);
             }
           },
           update: function (id, done) {
@@ -21,41 +27,4 @@
           }
         };
       }]);
-
-  function updateBrowserConnection(connected) {
-    var el = document.querySelector('#connection');
-    if (connected) {
-      if (el.classList) {
-        el.classList.add('online');
-        el.classList.remove('offline');
-      } else {
-        el.addClass('online');
-        el.removeClass('offline');
-      }
-    } else {
-      if (el.classList) {
-        el.classList.remove('online');
-        el.classList.add('offline');
-      } else {
-        el.removeClass('online');
-        el.addClass('offline');
-      }
-    }
-  }
-
-  window.addEventListener('load', function () {
-    if (navigator.onLine) {
-      updateBrowserConnection(true);
-    } else {
-      updateBrowserConnection(false);
-    }
-  }, false);
-
-  window.addEventListener('online', function () {
-    updateBrowserConnection(true);
-  }, false);
-
-  window.addEventListener('offline', function () {
-    updateBrowserConnection(false);
-  }, false);
 })();
