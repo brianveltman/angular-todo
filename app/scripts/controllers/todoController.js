@@ -8,13 +8,13 @@
      * Controller of the todoApp
      */
 
-    angular.module('todoController', [])
-        .controller('todoController', ['$scope', 'Todos', 'localStorageService', '$pusher', function ($scope, Todos, localStorageService, $pusher) {
+    angular.module('todoApp')
+        .controller('todoController', function ($scope, $http, Todos, localStorageService, $pusher) {
 
             var client = new Pusher('68ee1e650a5898375283');
             var pusher = $pusher(client);
             var todoChannel = pusher.subscribe('todo-channel');
-            
+
             if (navigator.onLine === true) {
                 var todosInStorage = localStorageService.get('todos');
                 $scope.todos = todosInStorage || [];
