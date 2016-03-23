@@ -1,5 +1,6 @@
-var Todo = require('./model/todo');
 module.exports = function (router, pusher) {
+
+var Todo = require('./model/todo');
 
   router.get('/todos', function (req, res) {
     Todo.find(function (err, todos) {
@@ -15,7 +16,14 @@ module.exports = function (router, pusher) {
       if (err) {
         res.send(err);
       } else {
-        pusher.trigger('todo-channel', 'new-todo', {"task": req.body.task, "done": req.body.done, "created_at": req.body.created_at });
+        pusher.trigger(
+          'todo-channel', // Pusher channel
+          'new-todo', // Pusher event
+            {
+              "task": req.body.task,
+              "done": req.body.done,
+              "created_at": req.body.created_at
+            });
         res.status(200).end();
       }
     });
@@ -25,10 +33,15 @@ module.exports = function (router, pusher) {
   router.delete('/todo/:id', function (req, res) {
     Todo.remove({
       _id: req.params.id
-    }, function (err, todo) {
-      if (err)
+    }, function (err) {
+      if (err) {
         res.send(err);
-      res.status(200).end();
+      } else {
+        pusher.trigger(
+          'todo-channel',
+          'remove-todo', req.params.id);
+        res.status(200).end();
+      }
     });
   });
 
