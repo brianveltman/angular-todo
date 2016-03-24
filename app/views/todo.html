@@ -17,12 +17,13 @@
 
     <!-- List all Todos -->
     <div ui-sortable ng-model="todos">
-        <div class="input-group" ng-repeat="todo in todos track by $index" style="padding:5px 10px; cursor: move;">
+        <div class="input-group" ng-repeat="todo in todos | orderBy: 'done' track by $index" style="padding:5px 10px; cursor: move;">
             <span class="input-group-addon">
                 <input type="checkbox" ng-click="update(todo._id)" ng-model="todo.done" class="form-group">
             </span>
-            <div ng-class="{'done':todo.done}" class="form-control">
-                <label ng-class="{'done':todo.done}">{{ todo.task }}</label>
+            <div ng-class="{'done':todo.done}" class="form-control" ng-click="editing = true">
+                <label ng-hide="editing" ng-class="{'done':todo.done}">{{ todo.task }}</label>
+                <input ng-show="editing" ng-blur="editing = false" type="text" ng-class="{'editing':editing}" ng-model="todo.task" class="form-group"/>
             </div>
             <span class="input-group-btn">
                 <button class="btn btn-danger" ng-click="delete(todo._id)" aria-label="Remove">X</button>
@@ -30,6 +31,6 @@
         </div>
         <br>
         <button class="btn btn-danger" ng-click="removeCompleted()">Remove Completed</button>
-        <button class="btn btn-info" ng-click="addDemo()">Add demo content</button>
+        <!--<button class="btn btn-info" ng-click="addDemo()">Add demo content</button>-->
     </div>
 </div>

@@ -121,3 +121,9 @@ button:focus {
 .offline {
   background: red;
 }
+
+
+input.form-group.ng-pristine.ng-valid.ng-not-empty.ng-touched {
+    font-weight: 600;
+    border: 0;
+}

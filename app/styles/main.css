@@ -97,4 +97,15 @@ button:focus {
   background: red;
 }
 
+input.editing {
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width:100%;
+}
+input.editing:focus {
+outline: 0;
+}
+
 /*# sourceMappingURL=main.css.map */
