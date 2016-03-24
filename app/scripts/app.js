@@ -16,9 +16,7 @@
                     'ngRoute',
                     'ngSanitize',
                     'ngTouch',
-                    'ui.sortable',
                     'LocalStorageModule',
-                    'todoService',
-                    'pusher-angular'
+                    'pusher-angular',
             ]);
 })();

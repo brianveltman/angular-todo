@@ -9,7 +9,7 @@
      */
 
     angular.module('todoApp')
-        .controller('todoController', function ($scope, $http, Todos, localStorageService, $pusher) {
+        .controller('todoController', function ($scope, todoService, localStorageService, $pusher) {
 
             var client = new Pusher('68ee1e650a5898375283');
             var pusher = $pusher(client);
@@ -27,13 +27,13 @@
 
             var load = function () {
               if (navigator.onLine === true ) {
-                Todos.get().success(function (data) {
-                    $scope.todos = data;
-                    todoChannel.bind('new-todo',
-                        function(data) {
-                            $scope.todos.push(data);
-                        }
-                    );
+                todoService.get(function(response){
+                  $scope.todos = response.data;
+                  todoChannel.bind('new-todo',
+                      function(data) {
+                          $scope.todos.push(data);
+                      }
+                  );
                 });
               } else {
                 var todosInStorage = localStorageService.get('todos');
@@ -42,91 +42,66 @@
             };
 
             load();
-
-            $scope.save = function () {
-                var dateNow = new Date().toISOString();
-                if (navigator.onLine === true) {
-                    Todos.create({'task': $scope.newToDo, 'done': false, 'created_at': dateNow})
-                        .success(function () {
-                            //load();
-                            $scope.newToDo = '';
-                            $scope.$watch('todos', function () {
-                                localStorageService.set('todos', $scope.todos);
-                            }, true);
-                        });
-                } else {
-                    $scope.$watch('todos', function () {
-                        localStorageService.set('todos', $scope.todos);
-                    }, true);
-                    $scope.todos.push({'task': $scope.newToDo, 'done': false, 'created_at': dateNow});
+            $scope.create = function() {
+              var dateNow = new Date().toISOString();
+              $scope.todos.unshift({task: $scope.newToDo,
+                      done: false,
+                    created_at: dateNow});
+                    $scope.todos.edited = true;
                     $scope.newToDo = '';
+                  };
+            // $scope.create = function () {
+            //     var dateNow = new Date().toISOString();
+            //     if (navigator.onLine === true) {
+            //         todoService.save({'task': $scope.newToDo, 'done': false, 'created_at': dateNow}, function(){
+            //           $scope.newToDo = '';
+            //           $scope.$watch('todos', function () {
+            //               localStorageService.set('todos', $scope.todos);
+            //           }, true);
+            //         });
+            //     } else {
+            //         $scope.$watch('todos', function () {
+            //             localStorageService.set('todos', $scope.todos);
+            //         }, true);
+            //         $scope.todos.push({'task': $scope.newToDo, 'done': false, 'created_at': dateNow});
+            //         $scope.newToDo = '';
+            //     }
+            // };
+
+            $scope.save = function() {
+              var readyTodos = $scope.todos.filter(function(todo){
+                if(todo.edited) {
+                  return todo;
                 }
+              });
+              todoService.save(readyTodos).finally($scope.resetTodoState());
+
+            };
+
+            $scope.resetTodoState = function() {
+              $scope.todos.forEach(function(todo){
+                todo.edited = false;
+
+              });
             };
 
 
-            $scope.delete = function (id) {
+            $scope.delete = function (todo, $index) {
                 // if (navigator.onLine == true) {
-                Todos.delete(id)
-                    .success(function () {
-                        load();
-                    });
-                /* } else {
-                 $scope.todos.delete(id);
-                 } */
+                todoService.delete(todo).then(function(){
+                  $scope.todos.splice($index, 1);
+                  load();
+                });
             };
 
-            $scope.update = function (id, done) {
-                Todos.update(id, done)
-                    .success(function () {
-                        load();
-                    });
-            };
 
-            var pushLocalTodosToMongo = function() {
-              var localTodos = JSON.stringify(localStorageService.get('todos'));
-              //var todos = [localTodos];
-              console.log('push' + localTodos);
-              Todos.create(localTodos);
-              return;
-            }
-
-            function updateBrowserConnection(connected) {
-              var el = document.querySelector('#connection');
-              if (connected) {
-                if (el.classList) {
-                  el.classList.add('online');
-                  el.classList.remove('offline');
-                } else {
-                  el.addClass('online');
-                  el.removeClass('offline');
-                }
-              } else {
-                if (el.classList) {
-                  el.classList.remove('online');
-                  el.classList.add('offline');
-                } else {
-                  el.removeClass('online');
-                  el.addClass('offline');
-                }
-              }
-            }
-
-            window.addEventListener('load', function () {
-              if (connectionService.online) {
-                updateBrowserConnection(true);
-              } else {
-                updateBrowserConnection(false);
-              }
-            }, false);
-
-            window.addEventListener('online', function () {
-              updateBrowserConnection(true);
-              pushLocalTodosToMongo();
-            }, false);
-
-            window.addEventListener('offline', function () {
-              updateBrowserConnection(false);
-            }, false);
+            // var pushLocalTodosToMongo = function() {
+            //   var localTodos = JSON.stringify(localStorageService.get('todos'));
+            //   //var todos = [localTodos];
+            //   console.log('push' + localTodos);
+            //   Todos.create(localTodos);
+            //   return;
+            // }
 
         });
 })();

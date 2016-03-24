@@ -24,7 +24,7 @@
     <div class="header">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
-      
+
           <div class="navbar-header">
 
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
@@ -79,12 +79,48 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/routes.js"></script>
-        <script src="scripts/factories/todoLists.js"></script>
-        <script src="scripts/factories/todoItems.js"></script>
-        <script src="scripts/factories/users.js"></script>
         <script src="scripts/services/todoService.js"></script>
         <script src="scripts/controllers/todoController.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <!-- endbuild -->
+        <script>
+        function updateBrowserConnection(connected) {
+          var el = document.querySelector('#connection');
+          if (connected) {
+            if (el.classList) {
+              el.classList.add('online');
+              el.classList.remove('offline');
+            } else {
+              el.addClass('online');
+              el.removeClass('offline');
+            }
+          } else {
+            if (el.classList) {
+              el.classList.remove('online');
+              el.classList.add('offline');
+            } else {
+              el.removeClass('online');
+              el.addClass('offline');
+            }
+          }
+        }
+
+        window.addEventListener('load', function () {
+          if (navigator.onLine) {
+            updateBrowserConnection(true);
+          } else {
+            updateBrowserConnection(false);
+          }
+        }, false);
+
+        window.addEventListener('online', function () {
+          updateBrowserConnection(true);
+          //pushLocalTodosToMongo();
+        }, false);
+
+        window.addEventListener('offline', function () {
+          updateBrowserConnection(false);
+        }, false);
+</script>
 </body>
 </html>

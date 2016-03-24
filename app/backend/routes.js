@@ -9,7 +9,7 @@ var Todo = require('./model/todo');
     });
   });
 
-  router.post('/todo', function (req, res) {
+  router.post('/todos', function (req, res) {
     var newTodo = new Todo({task: req.body.task, created_at: req.body.created_at});
 
     newTodo.save(function (err) {
@@ -30,7 +30,7 @@ var Todo = require('./model/todo');
 
   });
 
-  router.delete('/todo/:id', function (req, res) {
+  router.delete('/todos/:id', function (req, res) {
     Todo.remove({
       _id: req.params.id
     }, function (err) {
@@ -39,19 +39,22 @@ var Todo = require('./model/todo');
       } else {
         pusher.trigger(
           'todo-channel',
-          'remove-todo', req.params.id);
+          'remove-todo', JSON.stringify(req.body));
         res.status(200).end();
       }
     });
   });
 
-  router.put('/todo/:id', function (req, res) {
-    Todo.update({
-      _id: req.params.id,
-      done: true
-    }, function (err, todo) {
-      if (err)
+  router.put('/todos/:id', function (req, res) {
+    var id = req.params.id;
+    var todo = req.body;
+    if(todo && todo._id !== id) {
+      return res.status(500).json({err: "Ids dont match"})
+    }
+    Todo.findByIdAndUpdate(id, todo, {new: true}, function (err, todo) {
+      if (err) {
         res.send(err);
+      }
       res.status(200).end();
     });
   });

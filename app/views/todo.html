@@ -8,7 +8,7 @@
             <div class="input-group">
                 <input type="text" ng-model="newToDo" name="newToDo" placeholder="New todo" class="form-control" autofocus required>
                 <span class="input-group-btn">
-                    <button ng-disabled="newInput.$invalid" ng-click="save()" class="btn btn-primary">Add item</button>
+                    <button ng-disabled="newInput.$invalid" ng-click="create(); todo.edited = true; save()" class="btn btn-primary">Add item</button>
                 </span>
             </div>
         </div>
@@ -17,16 +17,16 @@
 
     <!-- List all Todos -->
     <div ui-sortable ng-model="todos">
-        <div class="input-group" ng-repeat="todo in todos | orderBy: 'done' track by $index" style="padding:5px 10px; cursor: move;">
+        <div class="input-group" ng-repeat="todo in todos | orderBy: 'done' " style="padding:5px 10px; cursor: move;">
             <span class="input-group-addon">
-                <input type="checkbox" ng-click="update(todo._id)" ng-model="todo.done" class="form-group">
+                <input type="checkbox" ng-click="todo.done = !todo.done; todo.edited = true; save()" class="form-group">
             </span>
             <div ng-class="{'done':todo.done}" class="form-control" ng-click="editing = true">
-                <label ng-hide="editing" ng-class="{'done':todo.done}">{{ todo.task }}</label>
-                <input ng-show="editing" ng-blur="editing = false" type="text" ng-class="{'editing':editing}" ng-model="todo.task" class="form-group"/>
+                <label ng-hide="editing" ng-click="editing = true" ng-class="{'done':todo.done}">{{ todo.task }}</label>
+                <input ng-show="editing" ng-blur="editing = false; save()" type="text" ng-class="{'editing':editing}" ng-model="todo.task" ng-change="todo.edited = true" class="form-group"/>
             </div>
             <span class="input-group-btn">
-                <button class="btn btn-danger" ng-click="delete(todo._id)" aria-label="Remove">X</button>
+                <button class="btn btn-danger" ng-click="delete(todo, $index)" aria-label="Remove">X</button>
             </span>
         </div>
         <br>

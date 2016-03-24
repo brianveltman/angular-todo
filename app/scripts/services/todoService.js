@@ -1,30 +1,40 @@
 (function() {
   'use strict';
 
-  angular.module('todoService', [])
+  angular.module('todoApp')
 
-      .factory('Todos', ['$http', function ($http) {
-        return {
-          get: function () {
-            return $http.get('/api/todos');
-          },
-          create: function (newTodo) {
-            if (navigator.onLine) {
-              console.log('create fc' + newTodo);
-              return $http.post('/api/todo', newTodo);
-            }
-          },
-          push: function (newTodo) {
-            if (navigator.onLine) {
-              return $http.post('/api/todos', newTodo);
-            }
-          },
-          update: function (id, done) {
-            return $http.patch('/api/todo/' + id, done);
-          },
-          delete: function (id) {
-            return $http.delete('/api/todo/' + id);
-          }
-        };
-      }]);
+      .service('todoService', function ($http, $q) {
+          this.get = function(callback){
+              $http.get('/api/todos')
+              .then(callback);
+          };
+
+           this.delete = function(todo){
+             if(!todo._id){
+               return $q.resolve();
+             }
+             return $http.delete('/api/todos/' + todo._id).then(function(){
+               console.log("todo " + todo.task + " has been deleted");
+             });
+           };
+
+           this.save = function(todos){
+             var queue = [];
+             todos.forEach(function(todo){
+               var request;
+               if (!todo._id){
+                 request = $http.post('/api/todos', todo);
+               } else {
+                 request = $http.put('/api/todos/' + todo._id, todo).then(function(result){
+                   todo = result.data.todo;
+                   return todo;
+                 });
+               }
+               queue.push(request);
+             });
+             return $q.all(queue).then(function(results){
+               console.log("Saved " + todos.length + " todos");
+             });
+           };
+      });
 })();
